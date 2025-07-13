@@ -44,7 +44,7 @@ jobs:
     docker:
       - image: cimg/node:lts
     steps:
-      - attach_to_workspace:
+      - attach_workspace:
           at: /tmp/workspace
       - run: ls -l /tmp/workspace
 
