@@ -38,7 +38,7 @@ jobs:
           echo "pwd: $(pwd)";
           echo -e "current dir:\n$(ls -la)"
       - run: >
-          mkdir -p /tmp/workspace &&
+          mkdir -p /tmp/workspace;
           echo $FOO >> /tmp/workspace/foo.txt
       - persist_to_workspace:
           root: /tmp/workspace
@@ -61,4 +61,6 @@ workflows:
       - job1:
           context:
             - test-context
-      - job2
+      - job2:
+          requires:
+            - job1
