@@ -1,12 +1,23 @@
+# CircleCI configuration file.
+# It defines a pipeline.
+
 version: 2.1
 
+# Cammands that can be called as steps in any job(s) in this config
+commands:
+  say_hello_cmd:
+    steps:
+      - run: echo -e "Hello from commands.say_hello_cmd.steps[0]"
+
+# Jobs are reponsible for running a series of _steps_ that performs command.
 jobs:
   hello-job:
     docker:
       - image: cimg/node:22.17
     steps:
       - checkout
-      - run: echo "hello world"
+      - run: echo "Hello from jobs.hello-job.steps[1]"
+      - say_hello_cmd
 
 workflows:
   my-workflow:
