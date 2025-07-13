@@ -39,4 +39,5 @@ workflows:
   other-workflow:
     jobs:
       - my-job:
-          context: test-context
+          context:
+            - test-context
