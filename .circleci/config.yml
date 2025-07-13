@@ -1,4 +1,5 @@
 # CircleCI configuration file that defines a pipeline.
+# https://circleci.com/docs/configuration-reference/
 
 version: 2.1
 
@@ -6,7 +7,7 @@ version: 2.1
 commands:
   say_hello_cmd:
     steps:
-      - run: echo "Hello from commands.say_hello_cmd.steps[0]"
+      - run: echo "Hello world"
       - my_command_cmd
   my_command_cmd:
     steps:
@@ -26,11 +27,16 @@ jobs:
       - image: cimg/node:22.17
     steps:
       - run: echo "hello from my-job"
+      - run: echo "Hello ${FOO}"
 
+# Workflows are resopnsible for orchestrating multiple jobs.
+# Define the run order, dependencies and approval.
 workflows:
   my-workflow:
     jobs:
-      - hello-job
-  other_workflow:
+      - hello-job:
+
+  other-workflow:
     jobs:
-      - my-job
+      - my-job:
+          context: test-context
