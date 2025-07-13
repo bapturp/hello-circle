@@ -14,7 +14,7 @@ commands:
 
 # Jobs are reponsible for running a series of _steps_ that performs command.
 jobs:
-  hello-job:
+  hello-job: # this is a job, it can run multiple steps.
     docker:
       - image: cimg/node:22.17
     steps:
@@ -26,3 +26,10 @@ workflows:
   my-workflow:
     jobs:
       - hello-job
+  other_workflow:
+    jobs:
+      - my-job:
+          docker:
+            - image: cimg/node:22.17
+          steps:
+            - run: echo "hello from worflows.other_workflow.jobs[0].my-job.steps[0]"
