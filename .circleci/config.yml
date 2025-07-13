@@ -34,9 +34,9 @@ jobs:
       - image: cimg/node:lts
     steps:
       - run: pwd
-      - run: echo "bar" >> foo.txt
+      - run: echo "bar" >> /tmp/workspace/foo.txt
       - persist_to_workspace:
-          root: workspace
+          root: /tmp/workspace
           paths:
             - foo.txt
 
