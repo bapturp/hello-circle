@@ -29,12 +29,32 @@ jobs:
       - run: echo "hello from my-job"
       - run: echo "Hello ${FOO}"
 
-# Workflows are resopnsible for orchestrating multiple jobs.
+  job1:
+    docker:
+      - image: cimg/node:lts
+    steps:
+      - run: pwd
+      - run: echo "bar" >> foo.txt
+      - persist_to_workspace:
+          root: workspace
+          paths:
+            - foo.txt
+
+  job2:
+    docker:
+      - image: cimg/node:lts
+    steps:
+      - attach_to_workspace:
+          at: /tmp/workspace
+      - run: ls -l /tmp/workspace
+
+# Workflows are responsible for orchestrating multiple jobs.
 # Define the run order, dependencies and approval.
 workflows:
   my-workflow:
     jobs:
-      - hello-job
+      - job1
+      - job2
 
   other-workflow:
     jobs:
