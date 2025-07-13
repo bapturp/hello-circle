@@ -1,5 +1,4 @@
-# CircleCI configuration file.
-# It defines a pipeline.
+# CircleCI configuration file that defines a pipeline.
 
 version: 2.1
 
@@ -7,7 +6,11 @@ version: 2.1
 commands:
   say_hello_cmd:
     steps:
-      - run: echo -e "Hello from commands.say_hello_cmd.steps[0]"
+      - run: echo "Hello from commands.say_hello_cmd.steps[0]"
+      - my_command_cmd
+  my_command_cmd:
+    steps:
+      - run: echo "This is a command"
 
 # Jobs are reponsible for running a series of _steps_ that performs command.
 jobs:
