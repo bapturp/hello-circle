@@ -1,67 +1,58 @@
 # CircleCI configuration file that defines a pipeline.
+# https://circleci.com/docs/concepts/
 # https://circleci.com/docs/configuration-reference/
 
 version: 2.1
 
-# Cammands that can be called as steps in any job(s) in this config
 commands:
-  say_hello_cmd:
+  print_user_cmd:
     steps:
-      - run: echo "Hello world"
-      - my_command_cmd
-  my_command_cmd:
+      - run: 'echo "user: $(whoami)"'
+  print_cwd_cmd:
     steps:
-      - run: echo "This is a command"
+      - run: 'echo "pwd: $(pwd)"'
+  print_current_dir_cmd:
+    steps:
+      - run: 'echo -e "current dir:\n$(ls -la)"'
+  print_info_cmd:
+    steps:
+      - print_user_cmd
+      - print_cwd_cmd
+      - print_current_dir_cmd
 
-# Jobs are reponsible for running a series of _steps_ that performs command.
 jobs:
-  hello-job: # this is a job, it can run multiple steps.
-    docker:
-      - image: cimg/node:lts
-    steps:
-      - checkout
-      - run: echo "Hello from jobs.hello-job.steps[1]"
-      - say_hello_cmd
-  my-job:
-    docker:
-      - image: cimg/node:lts
-    steps:
-      - run: echo "hello from my-job"
-      - run: echo "Hello ${FOO}"
-
-  job1:
+  create_file:
     docker:
       - image: cimg/base:current
     steps:
       - checkout
-      - run: >
-          echo "user: $(whoami)";
-          echo "pwd: $(pwd)";
-          echo -e "current dir:\n$(ls -la)"
-      - run: >
-          mkdir -p /tmp/workspace;
-          echo $FOO >> /tmp/workspace/foo.txt
+      - print_info_cmd
+      - run:
+          name: create file foo.txt
+          command: >
+            mkdir -p /tmp/workspace;
+            echo "${FOO}" >> /tmp/workspace/foo.txt
       - persist_to_workspace:
           root: /tmp/workspace
           paths:
             - foo.txt
-
-  job2:
+  read_file:
     docker:
       - image: cimg/base:current
     steps:
+      - print_info_cmd
       - attach_workspace:
           at: /tmp/workspace
-      - run: cat /tmp/workspace/foo.txt
+      - run:
+          name: print content of foo.txt
+          command: cat /tmp/workspace/foo.txt
 
-# Workflows are responsible for orchestrating multiple jobs.
-# Define the run order, dependencies and approval.
 workflows:
   my-workflow:
     jobs:
-      - job1:
+      - create_file:
           context:
             - test-context
-      - job2:
+      - read_file:
           requires:
-            - job1
+            - create_file
