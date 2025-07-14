@@ -7,13 +7,19 @@ version: 2.1
 commands:
   print_user_cmd:
     steps:
-      - run: 'echo "user: $(whoami)"'
+      - run:
+          name: print user
+          command: 'echo "user: $(whoami)"'
   print_cwd_cmd:
     steps:
-      - run: 'echo "pwd: $(pwd)"'
+      - run:
+          name: print current working directory
+          command: 'echo "pwd: $(pwd)"'
   print_current_dir_cmd:
     steps:
-      - run: 'echo -e "current dir:\n$(ls -la)"'
+      - run:
+          name: print content of `cwd`
+          command: 'echo -e "current dir:\n$(ls -la)"'
   print_info_cmd:
     steps:
       - print_user_cmd
