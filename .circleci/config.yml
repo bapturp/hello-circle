@@ -62,11 +62,11 @@ jobs:
       #     command: >
       #       ls -l | \
       #       grep circleci
-      - run:
-          name: test 2 with >
-          command: >
-            ls -l \
-            | grep circleci
+      # - run:
+      #     name: test 2 with >
+      #     command: >
+      #       ls -l \
+      #       | grep circleci
       - run:
           name: test 3 with |
           command: |
