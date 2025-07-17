@@ -61,8 +61,7 @@ jobs:
           name: test 3 with |
           command: |
             ls -l | \
-            grep circleci && \
-            echo hello
+            grep circleci
 
 workflows:
   my-workflow:
