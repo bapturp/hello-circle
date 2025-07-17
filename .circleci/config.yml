@@ -57,11 +57,11 @@ jobs:
     docker:
       - image: cimg/base:current
     steps:
-      - run:
-          name: test 1 with >
-          command: >
-            ls -l | \
-            grep circleci
+      # - run:
+      #     name: test 1 with >
+      #     command: >
+      #       ls -l | \
+      #       grep circleci
       - run:
           name: test 2 with >
           command: >
