@@ -53,12 +53,38 @@ jobs:
           name: print content of foo.txt
           command: cat /tmp/workspace/foo.txt
 
+  job1:
+    docker:
+      - image: cimg/base:current
+    steps:
+      - run:
+          name: test 1 with >
+          command: >
+            ls -l | \
+            grep circleci
+      - run:
+          name: test 2 with >
+          command: >
+            ls -l \
+            | grep circleci
+      - run:
+          name: test 3 with |
+          command: |
+            ls -l | \
+            grep circleci
+      - run:
+          name: test 4 with |
+          command: |
+            ls -l \
+            | grep circleci
+
 workflows:
   my-workflow:
     jobs:
-      - create_file:
-          context:
-            - test-context
-      - read_file:
-          requires:
-            - create_file
+      - job1
+      # - create_file:
+      #     context:
+      #       - test-context
+      # - read_file:
+      #     requires:
+      #       - create_file
